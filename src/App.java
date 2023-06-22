@@ -66,6 +66,14 @@ public class App {
                         System.out.println("0. Sair");
                         System.out.println("1. Admitir Funcionário");
                         System.out.println("2. Demitir Funcionário");
+                        subControlador = Integer.parseInt(System.console().readLine());
+  
+                        if(subControlador == 1) {
+                            // admitirFuncionario();
+                        } else if(subControlador == 2) {
+                            // demitirFuncionario();
+                        }
+
                         break;
 
                     case 4:
@@ -75,6 +83,16 @@ public class App {
                         System.out.println("2. Cadastrar");
                         System.out.println("3. Deletar");
                         System.out.println("4. Adicionar Estoque");
+
+                        if(subControlador == 1) {
+                            // listarIngredientes();
+                        } else if(subControlador == 2) {
+                            // cadastrarIngrediente();
+                        } else if(subControlador == 3) {
+                            // deletarIngrediente();
+                        } else if(subControlador == 4) {
+                            // adicionarEstoqueIngrediente();
+                        }
                         break;
 
                     case 5:
@@ -98,6 +116,7 @@ public class App {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
         ProdutoDAO produtoDAO = new ProdutoDAO();
         ClienteDAO clienteDAO = new ClienteDAO();
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 
         int i;
         ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>(Arrays.asList(
@@ -152,22 +171,32 @@ public class App {
         }
 
         ArrayList<Cliente> clientes = new ArrayList<Cliente>(Arrays.asList(
-            new Cliente("Pablo", "33 90852-2531", "Avenida Sabin, 1556", "183.043.700-34", 'M'),
-            new Cliente("Giordano", "37 7940-2950", "Rua Donato Caetano Machado, 691", "258.846.510-23", 'M'),
-            new Cliente("José", "54 95193-1945", "Rua Joaquim Silveira Filho, 1951", "714.290.560-37", 'M'),
-            new Cliente("Vitória", "46 91193-1586", "Praça Santa Terezinha, 1917", "175.327.390-07", 'F')
+            new Cliente("Pablo", "(33) 90852-2531", "Avenida Sabin, 1556", "183.043.700-34", 'M'),
+            new Cliente("Giordano", "(37) 7940-2950", "Rua Donato Caetano Machado, 691", "258.846.510-23", 'M'),
+            new Cliente("José", "(54) 95193-1945", "Rua Joaquim Silveira Filho, 1951", "714.290.560-37", 'M'),
+            new Cliente("Vitória", "(46) 91193-1586", "Praça Santa Terezinha, 1917", "175.327.390-07", 'F')
         ));
 
         for(i = 0; i < clientes.size(); i++) {
             clienteDAO.inserir(clientes.get(i));
         }
-        
+
+        ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>(Arrays.asList(
+            new Funcionario("João", "(31) 5612-3642", "Alameda dos Guatás, 1364", 1200, "Garçom", "10/10/2000", "12/05/2023"),
+            new Funcionario("Vinicius", "(66) 5158-5731", "Rua Barra Mansa, 991", 1200, "Garçom", "22/07/2002", "05/03/2022"),
+            new Funcionario("Maria", "(47) 3747-9839", "Rua Maranhão, 1099", 1800, "Gerente", "07/11/1998", "23/09/2018"),
+            new Funcionario("Sofia", "(85) 7286-3751", "Rua Chico Mendes, 1155", 1350, "Cozinheira", "13/06/1996", "07/07/2021")
+        ));
+
+        for(i = 0; i < funcionarios.size(); i++) {
+            funcionarioDAO.inserir(funcionarios.get(i));
+        }
     }
 
     static void listarProdutos() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
-        ArrayList<Produto> produtos = produtoDAO.getProdutos();
+        ArrayList<Produto> produtos = produtoDAO.getAll();
         ArrayList<Ingrediente> ingredientes;
 
         for(int i = 0; i < produtos.size(); i++) {
@@ -253,7 +282,7 @@ public class App {
 
     static void deletarProduto() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        ArrayList<Produto> produtos = produtoDAO.getProdutos();
+        ArrayList<Produto> produtos = produtoDAO.getAll();
             
 
         System.out.println("Produtos:");
@@ -271,7 +300,7 @@ public class App {
         try {
             ProdutoDAO produtoDAO = new ProdutoDAO();
             IngredienteDAO ingredienteDAO = new IngredienteDAO();
-            ArrayList<Produto> produtos = produtoDAO.getProdutos();
+            ArrayList<Produto> produtos = produtoDAO.getAll();
 
             System.out.println("Produtos: ");
             for(int i = 0; i < produtos.size(); i++){
@@ -338,7 +367,7 @@ public class App {
             }
                 
             produto.setIngredientesId(ingredientesCod);
-            produtoDAO.inserir(produto);
+            produtoDAO.editar(produto);
 
             System.out.println("\nProduto cadastrado com sucesso.\n");
         } catch(Error erro) {
@@ -384,10 +413,10 @@ public class App {
                 System.out.println(clientes.get(i).toString());
             }
 
-            System.out.print("Digite o cpf do cliente que deseja alterar: ");
-            String cpf = System.console().readLine();
+            System.out.print("Digite o código do cliente que deseja alterar: ");
+            int codigo = Integer.parseInt(System.console().readLine());
 
-            Cliente cliente = clienteDAO.getByCpf(cpf);
+            Cliente cliente = clienteDAO.getByCod(codigo);
             
             String nome;
             String telefone;
@@ -411,7 +440,7 @@ public class App {
             sexo = System.console().readLine().charAt(0);
             cliente.setSexo(sexo);
 
-            clienteDAO.atualizar(cliente);
+            clienteDAO.editar(cliente);
             System.out.println("\nCliente cadastrado com sucesso.\n");
         } catch (Error e) {
             System.out.println(e.getMessage());

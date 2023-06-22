@@ -3,7 +3,10 @@
         "src",
         "src/Ingrediente",
         "src/Produto",
-        "src/Cliente"
+        "src/Cliente",
+        "src/Funcionario",
+        "src/Fornecedor",
+        "src/Pedido"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [

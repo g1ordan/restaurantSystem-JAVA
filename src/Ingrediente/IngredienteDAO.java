@@ -1,13 +1,14 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class IngredienteDAO {
+public class IngredienteDAO implements DAO<Ingrediente> {
     private static ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
 
     /**
      * @param novosIngredientes ArrayList de ingredientes a serem inseridos no banco dados
      * @return ArrayList<Integer>
      */
+    @Override
     public void inserir(Ingrediente ingrediente){
         int maiorCodigo = 1;
         for(int i = 0; i < IngredienteDAO.ingredientes.size(); i++){
@@ -56,8 +57,27 @@ public class IngredienteDAO {
      * Retorna todos os ingredientes do banco de dados
      * @return ArrayList<Ingrediente> 
      */
+    @Override
     public ArrayList<Ingrediente> getAll() {
         return IngredienteDAO.ingredientes;
+    }
+
+    @Override
+    public void deletar(int codigo) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'deletar'");
+    }
+
+    @Override
+    public void editar(Ingrediente ingrediente) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'editar'");
+    }
+
+    @Override
+    public Ingrediente getByCod(int ingrediente) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getByCod'");
     }
 
 }

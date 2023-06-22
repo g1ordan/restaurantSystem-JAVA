@@ -1,4 +1,5 @@
 public class Pessoa {
+    protected int cod;
     protected String nome;
     protected String telefone;
     protected String endereco;
@@ -7,6 +8,14 @@ public class Pessoa {
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
+    }
+
+    public int getCod() {
+        return this.cod;
+    }
+
+    public void setCod(int cod) {
+        this.cod = cod;
     }
 
     public String getNome() {

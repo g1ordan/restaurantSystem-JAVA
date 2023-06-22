@@ -5,13 +5,12 @@ public class Funcionario extends Pessoa {
     private String admissao;
     private String rescisao;
 
-    public Funcionario(String nome, String telefone, String endereco, double salario, String funcao, String dataNasci, String admissao, String rescisao) {
+    public Funcionario(String nome, String telefone, String endereco, double salario, String funcao, String dataNasci, String admissao) {
         super(nome, telefone, endereco);
         this.salario = salario;
         this.funcao = funcao;
         this.dataNasci = dataNasci;
         this.admissao = admissao;
-        this.rescisao = rescisao;
     }
 
     public double getSalario() {
