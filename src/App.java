@@ -3,116 +3,129 @@ import java.util.Arrays;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        int controlador = 0;
+        final String CONSOLE_RESET = "\033[0m";
+        final String CONSOLE_RED = "\033[0;31m";  
+        int controlador, subControlador;
         inserirValoresDefault();
 
         System.out.println("Aplicação inicializada!\n");
         do {
-            System.out.println("Selecione uma opção:\n");
-            System.out.println("1. Produtos");
-            System.out.println("2. Clientes");
-            System.out.println("3. Funcionários");
-            System.out.println("4. Ingredientes");
-            System.out.println("5. Fornecedores");
+            try {
+                System.out.println("Selecione uma opção:\n");
+                System.out.println("1. Produtos");
+                System.out.println("2. Clientes");
+                System.out.println("3. Funcionários");
+                System.out.println("4. Ingredientes");
+                System.out.println("5. Fornecedores");
 
-            controlador = Integer.parseInt(System.console().readLine());
-            int subControlador = -1;
+                controlador = Integer.parseInt(System.console().readLine());
+                subControlador = -1;
 
-            while(controlador != 0 && subControlador != 0) {
-                switch (controlador) {
-                    case 1:
-                        System.out.println("--PRODUTOS--");
-                        System.out.println("0. Sair");
-                        System.out.println("1. Listar");
-                        System.out.println("2. Cadastrar");
-                        System.out.println("3. Deletar");
-                        System.out.println("4. Editar");
-                        subControlador = Integer.parseInt(System.console().readLine());
+                while(controlador != 0 && subControlador != 0) {
+                    switch (controlador) {
+                        case 1:
+                            System.out.println("--PRODUTOS--");
+                            System.out.println("0. Sair");
+                            System.out.println("1. Listar");
+                            System.out.println("2. Cadastrar");
+                            System.out.println("3. Deletar");
+                            System.out.println("4. Editar");
+                            subControlador = Integer.parseInt(System.console().readLine());
+                            
+                            if(subControlador == 1) {
+                                listarProdutos();
+                            } else if(subControlador == 2) {
+                                cadastrarProduto();
+                            } else if(subControlador == 3) {
+                                deletarProduto();
+                            } else if(subControlador == 4) {
+                                editarProduto();
+                            }
+
+                            break;
+
+                        case 2:
+                            System.out.println("--CLIENTES--");
+                            System.out.println("0. Sair");
+                            System.out.println("1. Listar");
+                            System.out.println("2. Cadastrar");
+                            System.out.println("3. Editar");
+                            System.out.println("4. Anotar Pedido");
+                            System.out.println("5. Receber Pagamento");
+                            subControlador = Integer.parseInt(System.console().readLine());
+
+                            if(subControlador == 1) {
+                                listarClientes();
+                            } else if(subControlador == 2) {
+                                cadastrarCliente();
+                            } else if(subControlador == 3) {
+                                editarCliente();
+                            }
+
+                            break;
+
+                        case 3:
+                            System.out.println("--FUNCIONARIOS--");
+                            System.out.println("0. Sair");
+                            System.out.println("1. Admitir Funcionário");
+                            System.out.println("2. Demitir Funcionário");
+                            subControlador = Integer.parseInt(System.console().readLine());
+    
+                            if(subControlador == 1) {
+                                admitirFuncionario();
+                            } else if(subControlador == 2) {
+                                demitirFuncionario();
+                            }
+
+                            break;
+
+                        case 4:
+                            System.out.println("--INGREDIENTES--");
+                            System.out.println("0. Sair");
+                            System.out.println("1. Listar");
+                            System.out.println("2. Cadastrar");
+                            System.out.println("3. Deletar");
+                            System.out.println("4. Adicionar Estoque");
+
+                            if(subControlador == 1) {
+                                listarIngredientes();
+                            } else if(subControlador == 2) {
+                                cadastrarIngrediente();
+                            } else if(subControlador == 3) {
+                                deletarIngrediente();
+                            } else if(subControlador == 4) {
+                                adicionarEstoqueIngrediente();
+                            }
+                            break;
+
+                        case 5:
+                            System.out.println("--FORNECEDORES--");
+                            System.out.println("0. Sair");
+                            System.out.println("1. Listar");
+                            System.out.println("2. Cadastrar");
+                            System.out.println("3. Editar");
+                            System.out.println("4. Deletar");
+                            break;
                         
-                        if(subControlador == 1) {
-                            listarProdutos();
-                        } else if(subControlador == 2) {
-                            cadastrarProduto();
-                        } else if(subControlador == 3) {
-                            deletarProduto();
-                        } else if(subControlador == 4) {
-                            editarProduto();
-                        }
-
-                        break;
-
-                    case 2:
-                        System.out.println("--CLIENTES--");
-                        System.out.println("0. Sair");
-                        System.out.println("1. Listar");
-                        System.out.println("2. Cadastrar");
-                        System.out.println("3. Editar");
-                        System.out.println("4. Anotar Pedido");
-                        System.out.println("5. Receber Pagamento");
-                        subControlador = Integer.parseInt(System.console().readLine());
-
-                        if(subControlador == 1) {
-                            listarClientes();
-                        } else if(subControlador == 2) {
-                            cadastrarCliente();
-                        } else if(subControlador == 3) {
-                            editarCliente();
-                        }
-
-                        break;
-
-                    case 3:
-                        System.out.println("--FUNCIONARIOS--");
-                        System.out.println("0. Sair");
-                        System.out.println("1. Admitir Funcionário");
-                        System.out.println("2. Demitir Funcionário");
-                        subControlador = Integer.parseInt(System.console().readLine());
-  
-                        if(subControlador == 1) {
-                            // admitirFuncionario();
-                        } else if(subControlador == 2) {
-                            // demitirFuncionario();
-                        }
-
-                        break;
-
-                    case 4:
-                        System.out.println("--INGREDIENTES--");
-                        System.out.println("0. Sair");
-                        System.out.println("1. Listar");
-                        System.out.println("2. Cadastrar");
-                        System.out.println("3. Deletar");
-                        System.out.println("4. Adicionar Estoque");
-
-                        if(subControlador == 1) {
-                            // listarIngredientes();
-                        } else if(subControlador == 2) {
-                            // cadastrarIngrediente();
-                        } else if(subControlador == 3) {
-                            // deletarIngrediente();
-                        } else if(subControlador == 4) {
-                            // adicionarEstoqueIngrediente();
-                        }
-                        break;
-
-                    case 5:
-                        System.out.println("--FORNECEDORES--");
-                        System.out.println("0. Sair");
-                        System.out.println("1. Listar");
-                        System.out.println("2. Cadastrar");
-                        System.out.println("3. Editar");
-                        System.out.println("4. Deletar");
-                        break;
-                    
-                    default:
-                        break;
+                        default:
+                            break;
+                    }
                 }
+            } catch (NumberFormatException e) {
+                System.err.println(CONSOLE_RED + "\n Número inválido, tente novamente \n" + CONSOLE_RESET);
+            } catch (ApplicationError e) {
+                System.err.println(CONSOLE_RED + "\n" + e.getMessage() + "\n" + CONSOLE_RESET);
+            } catch (Error e) {
+                System.err.println(CONSOLE_RED + "\n Erro inesperado, tente novamente \n" + CONSOLE_RESET);
+            } finally {
+                controlador = -1;
+                subControlador = -1;
             }
         } while(controlador != 0);
 
     }
 
-    public static void inserirValoresDefault() {
+    public static void inserirValoresDefault() throws ApplicationError {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
         ProdutoDAO produtoDAO = new ProdutoDAO();
         ClienteDAO clienteDAO = new ClienteDAO();
@@ -182,10 +195,10 @@ public class App {
         }
 
         ArrayList<Funcionario> funcionarios = new ArrayList<Funcionario>(Arrays.asList(
-            new Funcionario("João", "(31) 5612-3642", "Alameda dos Guatás, 1364", 1200, "Garçom", "10/10/2000", "12/05/2023"),
-            new Funcionario("Vinicius", "(66) 5158-5731", "Rua Barra Mansa, 991", 1200, "Garçom", "22/07/2002", "05/03/2022"),
-            new Funcionario("Maria", "(47) 3747-9839", "Rua Maranhão, 1099", 1800, "Gerente", "07/11/1998", "23/09/2018"),
-            new Funcionario("Sofia", "(85) 7286-3751", "Rua Chico Mendes, 1155", 1350, "Cozinheira", "13/06/1996", "07/07/2021")
+            new Funcionario("João", "(31) 5612-3642", "Alameda dos Guatás, 1364", "888.180.660-64", 'M', 1200, "Garçom", "10/10/2000", "12/05/2023"),
+            new Funcionario("Vinicius", "(66) 5158-5731", "Rua Barra Mansa, 991", "971.068.520-15", 'M', 1200, "Garçom", "22/07/2002", "05/03/2022"),
+            new Funcionario("Maria", "(47) 3747-9839", "Rua Maranhão, 1099", "522.494.970-01", 'F', 1800, "Gerente", "07/11/1998", "23/09/2018"),
+            new Funcionario("Sofia", "(85) 7286-3751", "Rua Chico Mendes, 1155", "614.258.250-10", 'F', 1350, "Cozinheira", "13/06/1996", "07/07/2021")
         ));
 
         for(i = 0; i < funcionarios.size(); i++) {
@@ -219,12 +232,9 @@ public class App {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
         ProdutoDAO produtoDAO = new ProdutoDAO();
         Produto novoProduto = new Produto();
-        String nome;
-        int categoria;
-        double valor;
 
         System.out.print("Digite o nome do produto: ");
-        nome = System.console().readLine();
+        String nome = System.console().readLine();
         novoProduto.setNome(nome);
 
         System.out.print("\nDigite a categoria do produto: ");
@@ -232,7 +242,7 @@ public class App {
         System.out.print("\n2- Porções");
         System.out.print("\n3- Batata em Torre");
         System.out.print("\n4- Pasteis\n");
-        categoria = Integer.parseInt(System.console().readLine());
+        int categoria = Integer.parseInt(System.console().readLine());
 
         switch (categoria) {
             case 1:
@@ -253,18 +263,18 @@ public class App {
         }
 
         System.out.print("Digite o valor do produto: ");
-        valor = Double.parseDouble(System.console().readLine());
+        double valor = Double.parseDouble(System.console().readLine());
         novoProduto.setValor(valor);
 
         ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
-         new ArrayList<Integer>();
+        new ArrayList<Integer>();
 
         for(int i = 0; i < ingredientes.size(); i++) {
             Ingrediente ingredienteAtual = ingredientes.get(i);
             System.out.println(ingredienteAtual.getCod() + "- " + ingredienteAtual.getNome());
         };
         System.out.print("\nDigite os códigos dos ingredientes separados por virgula. Ex: 1, 2, 3: ");
-            
+                
         // TODO: Validar se a resposta está formatada corretamente
         String[] ingredientesSelecionados = System.console().readLine().split(",");
         ArrayList<Integer> ingredientesCod = new ArrayList<Integer>();
@@ -272,18 +282,16 @@ public class App {
             int valorConvertido = Integer.parseInt(ingredientesSelecionados[i].trim());
             ingredientesCod.add(valorConvertido);
         }
-            
+                
         novoProduto.setIngredientesId(ingredientesCod);
         produtoDAO.inserir(novoProduto);
 
         System.out.println("\nProduto cadastrado com sucesso.\n");
-
     }
 
     static void deletarProduto() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         ArrayList<Produto> produtos = produtoDAO.getAll();
-            
 
         System.out.println("Produtos:");
         for(int i = 0; i < produtos.size(); i ++) {
@@ -311,43 +319,44 @@ public class App {
             int codigo = Integer.parseInt(System.console().readLine());
             
             Produto produto = produtoDAO.getByCod(codigo);
-            String nome;
-            int categoria;
-            double valor;
+            String input;
 
             System.out.print("Caso não queira editar algum campo, digite '#'");
             System.out.print("Digite o nome do produto: ");
-            nome = System.console().readLine();
-            produto.setNome(nome);
+            input = System.console().readLine();
+            if(input != "#")
+                produto.setNome(input);
 
             System.out.print("\nDigite a categoria do produto: ");
             System.out.print("\n1- Lanches");
             System.out.print("\n2- Porções");
             System.out.print("\n3- Batata em Torre");
             System.out.print("\n4- Pasteis\n");
-            categoria = Integer.parseInt(System.console().readLine());
+            input = System.console().readLine();
 
-            switch (categoria) {
-                case 1:
-                    produto.setCategoria(Categoria.Lanches);
-                    break;
-                case 2:
-                    produto.setCategoria(Categoria.Porções);
-                    break;
-                case 3:
-                    produto.setCategoria(Categoria.BatataEmTorre);
-                    break;
-                case 4:
-                    produto.setCategoria(Categoria.Pasteis);
-                    break;
-                default:
-                    return;
+            if(input != "#") {
+                switch (Integer.parseInt(input)) {
+                    case 1:
+                        produto.setCategoria(Categoria.Lanches);
+                        break;
+                    case 2:
+                        produto.setCategoria(Categoria.Porções);
+                        break;
+                    case 3:
+                        produto.setCategoria(Categoria.BatataEmTorre);
+                        break;
+                    case 4:
+                        produto.setCategoria(Categoria.Pasteis);
+                        break;
+                    default:
+                        return;
+                }
             }
 
-
             System.out.print("Digite o valor do produto: ");
-            valor = Double.parseDouble(System.console().readLine());
-            produto.setValor(valor);
+            input = System.console().readLine();
+            if(input != "#") 
+                produto.setValor(Double.parseDouble(input));
 
             ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
             new ArrayList<Integer>();
@@ -359,45 +368,43 @@ public class App {
             System.out.print("\nDigite os códigos dos ingredientes separados por virgula. Ex: 1, 2, 3: ");
                 
             // TODO: Validar se a resposta está formatada corretamente
-            String[] ingredientesSelecionados = System.console().readLine().split(",");
-            ArrayList<Integer> ingredientesCod = new ArrayList<Integer>();
-            for(int i = 0; i < ingredientesSelecionados.length; i++){
-                int valorConvertido = Integer.parseInt(ingredientesSelecionados[i].trim());
-                ingredientesCod.add(valorConvertido);
+            input = System.console().readLine();
+            if(input != "#") {
+                String[] ingredientesSelecionados = input.split(",");
+                ArrayList<Integer> ingredientesCod = new ArrayList<Integer>();
+                for(int i = 0; i < ingredientesSelecionados.length; i++){
+                    int valorConvertido = Integer.parseInt(ingredientesSelecionados[i].trim());
+                    ingredientesCod.add(valorConvertido);
+                }
+                    
+                produto.setIngredientesId(ingredientesCod);
             }
-                
-            produto.setIngredientesId(ingredientesCod);
+
             produtoDAO.editar(produto);
 
             System.out.println("\nProduto cadastrado com sucesso.\n");
         } catch(Error erro) {
             System.out.println(erro.getMessage());
         }
-        
     }
 
     static void cadastrarCliente() {
         ClienteDAO clienteDAO = new ClienteDAO();
-        String cpf;
-        String nome;
-        String telefone;
-        String endereco;
-        char sexo;
 
         System.out.print("\nDigite o cpf do cliente: ");
-        cpf = System.console().readLine();
+        String cpf = System.console().readLine();
 
         System.out.print("Digite o nome do cliente: ");
-        nome = System.console().readLine();
+        String nome = System.console().readLine();
 
         System.out.print("\nDigite o telefone do cliente: ");
-        telefone = System.console().readLine();
+        String telefone = System.console().readLine();
 
         System.out.print("\nDigite o endereco do cliente: ");
-        endereco = System.console().readLine();
+        String endereco = System.console().readLine();
         
         System.out.print("\nDigite o sexo do cliente: ");
-        sexo = System.console().readLine().charAt(0);
+        char sexo = System.console().readLine().charAt(0);
 
         Cliente novoCliente = new Cliente(nome, telefone, endereco, cpf, sexo);
         clienteDAO.inserir(novoCliente);
@@ -418,27 +425,28 @@ public class App {
 
             Cliente cliente = clienteDAO.getByCod(codigo);
             
-            String nome;
-            String telefone;
-            String endereco;
-            char sexo;
+            String input;
 
             System.out.print("Caso não queira editar algum campo, digite '#'");
             System.out.print("\nDigite o nome do cliente: ");
-            nome = System.console().readLine();
-            cliente.setNome(nome);
+            input = System.console().readLine();
+            if(input != "#")
+                cliente.setNome(input);
 
             System.out.print("\nDigite o telefone do cliente: ");
-            telefone = System.console().readLine();
-            cliente.setTelefone(telefone);
+            input = System.console().readLine();
+            if(input != "#")
+                cliente.setTelefone(input);
 
             System.out.print("\nDigite o endereco do cliente: ");
-            endereco = System.console().readLine();
-            cliente.setEndereco(endereco);
+            input = System.console().readLine();
+            if(input != "#")
+                cliente.setEndereco(input);
             
             System.out.print("\nDigite o sexo do cliente: ");
-            sexo = System.console().readLine().charAt(0);
-            cliente.setSexo(sexo);
+            input = System.console().readLine();
+            if(input != "#")
+                cliente.setSexo(input.charAt(0));
 
             clienteDAO.editar(cliente);
             System.out.println("\nCliente cadastrado com sucesso.\n");
@@ -448,12 +456,121 @@ public class App {
         
     }
     
-    public static void listarClientes(){
+    static void listarClientes(){
         ClienteDAO clienteDAO = new ClienteDAO();
         ArrayList<Cliente> clientes = clienteDAO.getAll();
         
          for(int i = 0; i < clientes.size(); i++) {
                 System.out.println(clientes.get(i).toString());
             }
+    }
+
+    public static void admitirFuncionario() throws ApplicationError {
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+
+        System.out.print("\nDigite o cpf do funcionário: ");
+        String cpf = System.console().readLine();
+
+        System.out.print("Digite o nome do funcionário: ");
+        String nome = System.console().readLine();
+
+        System.out.print("\nDigite o telefone do funcionário: ");
+        String telefone = System.console().readLine();
+
+        System.out.print("\nDigite o endereço do funcionário: ");
+        String endereco = System.console().readLine();
+        
+        System.out.print("\nDigite o sexo do funcionário: ");
+        char sexo = System.console().readLine().charAt(0);
+
+        System.out.print("\nDigite o salário do funcionário: ");
+        double salario = Double.parseDouble(System.console().readLine());
+
+        System.out.print("\nDigite a funçao do funcionário: ");
+        String funcao = System.console().readLine();
+
+        // TO DO: Validar data
+        System.out.print("\nDigite a data de nascimento do funcionário: (dd/mm/aaaa)");
+        String dataNasci = System.console().readLine();
+
+        System.out.print("\nDigite a data de admissão do funcionário: (dd/mm/aaaa)");
+        String admissao = System.console().readLine();
+
+        Funcionario novoFuncionario = new Funcionario(nome, telefone, endereco, cpf, sexo, salario, funcao, dataNasci, admissao);
+        funcionarioDAO.inserir(novoFuncionario);
+        System.out.println("\nFuncionário cadastrado com sucesso.\n");
+    }
+
+    static void demitirFuncionario() {
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        ArrayList<Funcionario> funcionarios = funcionarioDAO.getAll();
+
+        System.out.println("Funcionários:");
+        for(int i = 0; i < funcionarios.size(); i ++) {
+            System.out.println(funcionarios.get(i).toString());
+        }
+        System.out.print("Digite o codigo do funcionário que deseja demitir: ");
+        int codigo = Integer.parseInt(System.console().readLine());
+
+        funcionarioDAO.deletar(codigo);
+        System.out.println("Demitido com sucesso!");
+    }
+
+    static void listarIngredientes() {
+        IngredienteDAO ingredienteDAO = new IngredienteDAO();
+        ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
+        
+         for(int i = 0; i < ingredientes.size(); i++) {
+            System.out.println(ingredientes.get(i).toString());
+        }
+    }
+
+    static void cadastrarIngrediente() {
+        IngredienteDAO ingredienteDAO = new IngredienteDAO();
+
+        System.out.print("\nDigite o nome do ingrediente: ");
+        String nome = System.console().readLine();
+
+        // TODO: validar inteiro
+        System.out.print("Digite o estoque inicial do ingrediente: ");
+        int estoque = Integer.parseInt(System.console().readLine());
+
+        Ingrediente novoIngrediente = new Ingrediente(nome, estoque);
+        ingredienteDAO.inserir(novoIngrediente);
+        System.out.println("\nIngrediente cadastrado com sucesso.\n");
+    }
+
+    static void deletarIngrediente() {
+        IngredienteDAO ingredienteDAO = new IngredienteDAO();
+        ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
+
+        System.out.println("Ingredientes:");
+        for(int i = 0; i < ingredientes.size(); i ++) {
+            System.out.println(ingredientes.get(i).toString());
+        }
+        System.out.print("Digite o codigo do ingrediente que deseja deletar: ");
+        int codigo = Integer.parseInt(System.console().readLine());
+
+        ingredienteDAO.deletar(codigo);
+        System.out.println("Deletado com sucesso!");
+    }
+
+    static void adicionarEstoqueIngrediente() {
+        IngredienteDAO ingredienteDAO = new IngredienteDAO();
+        ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
+
+        System.out.println("Ingredientes:");
+        for(int i = 0; i < ingredientes.size(); i ++) {
+            System.out.println(ingredientes.get(i).toString());
+        }
+        System.out.print("Digite o codigo do ingrediente que deseja adicionar no estoque: ");
+        int codigo = Integer.parseInt(System.console().readLine());
+
+        System.out.println("Digite a quantidade a ser adicionado no estoque: ");
+        int quantidade = Integer.parseInt(System.console().readLine());
+
+        Ingrediente ingrediente = ingredienteDAO.getByCod(codigo);
+        ingrediente.setEstoque(ingrediente.getEstoque() + quantidade);
+        ingredienteDAO.editar(ingrediente);
     }
 }

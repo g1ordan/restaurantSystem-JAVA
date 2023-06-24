@@ -6,7 +6,8 @@
         "src/Cliente",
         "src/Funcionario",
         "src/Fornecedor",
-        "src/Pedido"
+        "src/Pedido",
+        "src/Errors"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [

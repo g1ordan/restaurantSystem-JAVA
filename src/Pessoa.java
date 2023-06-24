@@ -23,8 +23,7 @@ public class Pessoa {
     }
 
     public void setNome(String nome) {
-        if(nome != "#")
-            this.nome = nome;
+        this.nome = nome;
     }
 
     public String getTelefone() {
@@ -32,8 +31,7 @@ public class Pessoa {
     }
 
     public void setTelefone(String telefone) {
-        if(telefone != "#")
-            this.telefone = telefone;
+        this.telefone = telefone;
     }
 
     public String getEndereco() {
@@ -41,8 +39,7 @@ public class Pessoa {
     }
 
     public void setEndereco(String endereco) {
-        if(endereco != "#")
-            this.endereco = endereco;
+        this.endereco = endereco;
     }
     
 }

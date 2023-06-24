@@ -26,7 +26,6 @@ public class Produto {
     }
 
     public void setNome(String nome) {
-        if(nome != "#")
         this.nome = nome;
     }
 

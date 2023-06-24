@@ -5,7 +5,8 @@ public class Cliente extends PessoaFisica {
 
     @Override
     public String toString() {
-        return "Cpf: " + this.cpf +
+        return  "Código: " + this.cod +
+            "\nCpf: " + this.cpf +
             "\nNome: " + this.nome +
             "\nTelefone: " + this.telefone +
             "\nEndereço: R$" + this.endereco +

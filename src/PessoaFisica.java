@@ -17,7 +17,6 @@ public class PessoaFisica extends Pessoa {
     }
 
     public void setSexo(char sexo) {
-        if(sexo != '#')
-            this.sexo = sexo;
+        this.sexo = sexo;
     }
 }

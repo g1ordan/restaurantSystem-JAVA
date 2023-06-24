@@ -31,4 +31,12 @@ public class Ingrediente {
     public void setEstoque(int estoque) {
         this.estoque = estoque;
     }
+
+    @Override
+    public String toString() {
+        return "Código: " + this.cod +
+            "\nNome: " + this.nome +
+            "\nEstoque: " + this.estoque
+         ;
+    } 
 }
