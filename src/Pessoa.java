@@ -3,12 +3,15 @@ public class Pessoa {
     protected String nome;
     protected String telefone;
     protected String endereco;
+    private final String telefoneRegex =  "^\\([1-9]{2}\\) (?:[2-8]|9[1-9])[0-9]{3}\\-[0-9]{4}$";
 
-    public Pessoa(String nome, String telefone, String endereco) {
+    public Pessoa(String nome, String telefone, String endereco) throws ApplicationError {
         this.nome = nome;
         this.telefone = telefone;
         this.endereco = endereco;
     }
+
+    public Pessoa() {}
 
     public int getCod() {
         return this.cod;
@@ -30,7 +33,10 @@ public class Pessoa {
         return this.telefone;
     }
 
-    public void setTelefone(String telefone) {
+    public void setTelefone(String telefone) throws ApplicationError {
+        if(!telefone.matches(this.telefoneRegex)) {
+            throw new ApplicationError("Número de telefone inválido");
+        }
         this.telefone = telefone;
     }
 

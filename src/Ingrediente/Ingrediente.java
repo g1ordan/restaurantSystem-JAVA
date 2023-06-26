@@ -8,6 +8,8 @@ public class Ingrediente {
         this.estoque = estoque;
     }
 
+    public Ingrediente() {}
+
     public int getCod() {
         return this.cod;
     }

@@ -5,7 +5,6 @@
         "src/Produto",
         "src/Cliente",
         "src/Funcionario",
-        "src/Fornecedor",
         "src/Pedido",
         "src/Errors"
     ],

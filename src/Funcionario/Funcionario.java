@@ -4,22 +4,20 @@ public class Funcionario extends PessoaFisica {
     private String dataNasci;
     private String admissao;
     private String rescisao;
+    final private String regexData = "^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$";
+
 
     public Funcionario(String nome, String telefone, String endereco, String cpf, char sexo, double salario, String funcao, String dataNasci, String admissao) throws ApplicationError {
         super(nome, telefone, endereco, cpf, sexo);
-
-        if(!dataNasci.matches("^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$")) {
-            throw new ApplicationError("Data de nascimento inválida");
-        }
-
-        if(!admissao.matches("^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$")) {
-            throw new ApplicationError("Data de admissão inválida");
-        }
         
         this.salario = salario;
         this.funcao = funcao;
         this.dataNasci = dataNasci;
         this.admissao = admissao;
+    }
+
+    public Funcionario(){
+        super();
     }
 
     public double getSalario() {
@@ -41,9 +39,11 @@ public class Funcionario extends PessoaFisica {
     public String getDataNasci() {
         return this.dataNasci;
     }
-    // 
 
-    public void setDataNasci(String dataNasci) {
+    public void setDataNasci(String dataNasci) throws ApplicationError {
+        if(!dataNasci.matches(this.regexData)) {
+            throw new ApplicationError("Data de nascimento inválida");
+        }
         this.dataNasci = dataNasci;
     }
 
@@ -51,7 +51,10 @@ public class Funcionario extends PessoaFisica {
         return this.admissao;
     }
 
-    public void setAdmissao(String admissao) {
+    public void setAdmissao(String admissao) throws ApplicationError {
+        if(!admissao.matches(this.regexData)) {
+            throw new ApplicationError("Data de admissão inválida");
+        }
         this.admissao = admissao;
     }
 
@@ -59,7 +62,10 @@ public class Funcionario extends PessoaFisica {
         return this.rescisao;
     }
 
-    public void setRescisao(String rescisao) {
+    public void setRescisao(String rescisao) throws ApplicationError {
+        if(!rescisao.matches(this.regexData)) {
+            throw new ApplicationError("Data de rescisão inválida");
+        }
         this.rescisao = rescisao;
     }
 }

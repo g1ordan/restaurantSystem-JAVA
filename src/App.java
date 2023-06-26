@@ -16,7 +16,6 @@ public class App {
                 System.out.println("2. Clientes");
                 System.out.println("3. Funcionários");
                 System.out.println("4. Ingredientes");
-                System.out.println("5. Fornecedores");
 
                 controlador = Integer.parseInt(System.console().readLine());
                 subControlador = -1;
@@ -60,6 +59,10 @@ public class App {
                                 cadastrarCliente();
                             } else if(subControlador == 3) {
                                 editarCliente();
+                            } else if(subControlador == 4) {
+                                anotarPedido();
+                            } else if(subControlador == 5) {
+                                receberPagamento();
                             }
 
                             break;
@@ -97,22 +100,12 @@ public class App {
                                 adicionarEstoqueIngrediente();
                             }
                             break;
-
-                        case 5:
-                            System.out.println("--FORNECEDORES--");
-                            System.out.println("0. Sair");
-                            System.out.println("1. Listar");
-                            System.out.println("2. Cadastrar");
-                            System.out.println("3. Editar");
-                            System.out.println("4. Deletar");
-                            break;
-                        
                         default:
                             break;
                     }
                 }
             } catch (NumberFormatException e) {
-                System.err.println(CONSOLE_RED + "\n Número inválido, tente novamente \n" + CONSOLE_RESET);
+                System.err.println(CONSOLE_RED + "\n Caractere inválido, tente novamente \n" + CONSOLE_RESET);
             } catch (ApplicationError e) {
                 System.err.println(CONSOLE_RED + "\n" + e.getMessage() + "\n" + CONSOLE_RESET);
             } catch (Error e) {
@@ -205,6 +198,12 @@ public class App {
             funcionarioDAO.inserir(funcionarios.get(i));
         }
     }
+
+
+
+
+
+    //IMPLEMENTAÇÃO PRODUTOS
 
     static void listarProdutos() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -388,30 +387,51 @@ public class App {
         }
     }
 
-    static void cadastrarCliente() {
-        ClienteDAO clienteDAO = new ClienteDAO();
 
+
+
+
+    //IMPLEMENTAÇÃO CLIENTE
+
+    static void listarClientes(){
+        ClienteDAO clienteDAO = new ClienteDAO();
+        ArrayList<Cliente> clientes = clienteDAO.getAll();
+        
+         for(int i = 0; i < clientes.size(); i++) {
+                System.out.println(clientes.get(i).toString());
+            }
+    }
+
+    static void cadastrarCliente() throws ApplicationError {
+        ClienteDAO clienteDAO = new ClienteDAO();
+        
+        Cliente novoCliente = new Cliente();
+        
         System.out.print("\nDigite o cpf do cliente: ");
         String cpf = System.console().readLine();
+        novoCliente.setCpf(cpf);
 
         System.out.print("Digite o nome do cliente: ");
         String nome = System.console().readLine();
+        novoCliente.setNome(nome);
 
         System.out.print("\nDigite o telefone do cliente: ");
         String telefone = System.console().readLine();
+        novoCliente.setTelefone(telefone);
 
         System.out.print("\nDigite o endereco do cliente: ");
         String endereco = System.console().readLine();
+        novoCliente.setEndereco(endereco);
         
         System.out.print("\nDigite o sexo do cliente: ");
         char sexo = System.console().readLine().charAt(0);
-
-        Cliente novoCliente = new Cliente(nome, telefone, endereco, cpf, sexo);
+        novoCliente.setSexo(sexo);
+        
         clienteDAO.inserir(novoCliente);
         System.out.println("\nCliente cadastrado com sucesso.\n");
     }
 
-    static void editarCliente() {
+    static void editarCliente() throws ApplicationError {
         try {
             ClienteDAO clienteDAO = new ClienteDAO();
             ArrayList<Cliente> clientes = clienteDAO.getAll();
@@ -455,48 +475,97 @@ public class App {
         }
         
     }
-    
-    static void listarClientes(){
-        ClienteDAO clienteDAO = new ClienteDAO();
-        ArrayList<Cliente> clientes = clienteDAO.getAll();
+
+    static void anotarPedido(){
         
-         for(int i = 0; i < clientes.size(); i++) {
-                System.out.println(clientes.get(i).toString());
-            }
+        ClienteDAO clienteDAO = new ClienteDAO();
+        Cliente novoCliente = new Cliente();
+
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        Funcionario novoFuncionario = new Funcionario();
+
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+        Produto novoProduto = new Produto();
+
+        System.out.print("\nDigite o codigo do garçom: ");
+        int codFunc = Integer.parseInt(System.console().readLine());
+        Funcionario funcionario = funcionarioDAO.getByCod(codFunc);
+
+        listarClientes();
+        System.out.print("\nDigite o codigo do cliente: ");
+        int codCliente = Integer.parseInt(System.console().readLine());
+        Cliente cliente = clienteDAO.getByCod(codCliente);
+
+        listarProdutos();
+        System.out.print("\nDigite o codigo do produto: ");
+        int codProduto = Integer.parseInt(System.console().readLine());
+        Produto produto = produtoDAO.getByCod(codProduto);
+        
+
+        System.out.print("Quantas unidades: ");
+        String unidade  = System.console().readLine();
+    
+        
+        clienteDAO.inserir(novoCliente);
+        System.out.println("\nPedido anotado.\n");
+
+        PedidoDAO pedidoDAO = new PedidoDAO();
+        Pedido novPedido = new Pedido(null, 0, 0);
+        
     }
+
+    static void receberPagamento(){
+        
+    }
+        
+    
+    
+
+
+
+      //IMPLEMENTAÇÃO FUNCIONÁRIO
 
     public static void admitirFuncionario() throws ApplicationError {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        Funcionario novoFuncionario = new Funcionario();
 
-        System.out.print("\nDigite o cpf do funcionário: ");
+        System.out.print("\nDigite o cpf do funcionário: (xxx.xxx.xxx-xx): ");
         String cpf = System.console().readLine();
+        novoFuncionario.setCpf(cpf);
 
         System.out.print("Digite o nome do funcionário: ");
         String nome = System.console().readLine();
+        novoFuncionario.setNome(nome);
 
-        System.out.print("\nDigite o telefone do funcionário: ");
+        System.out.print("\nDigite o telefone do funcionário: (xx) xxxxx-xxxx: ");
         String telefone = System.console().readLine();
+        novoFuncionario.setTelefone(telefone);
 
         System.out.print("\nDigite o endereço do funcionário: ");
         String endereco = System.console().readLine();
+        novoFuncionario.setEndereco(endereco);
         
         System.out.print("\nDigite o sexo do funcionário: ");
         char sexo = System.console().readLine().charAt(0);
+        novoFuncionario.setSexo(sexo);
 
         System.out.print("\nDigite o salário do funcionário: ");
         double salario = Double.parseDouble(System.console().readLine());
+        novoFuncionario.setSalario(salario);
 
         System.out.print("\nDigite a funçao do funcionário: ");
         String funcao = System.console().readLine();
+        novoFuncionario.setFuncao(funcao);
 
         // TO DO: Validar data
-        System.out.print("\nDigite a data de nascimento do funcionário: (dd/mm/aaaa)");
+        System.out.print("\nDigite a data de nascimento do funcionário: (dd/mm/aaaa): ");
         String dataNasci = System.console().readLine();
+        novoFuncionario.setDataNasci(dataNasci);
 
         System.out.print("\nDigite a data de admissão do funcionário: (dd/mm/aaaa)");
         String admissao = System.console().readLine();
+        novoFuncionario.setAdmissao(admissao);
 
-        Funcionario novoFuncionario = new Funcionario(nome, telefone, endereco, cpf, sexo, salario, funcao, dataNasci, admissao);
         funcionarioDAO.inserir(novoFuncionario);
         System.out.println("\nFuncionário cadastrado com sucesso.\n");
     }
@@ -516,6 +585,12 @@ public class App {
         System.out.println("Demitido com sucesso!");
     }
 
+
+
+
+
+      //IMPLEMENTAÇÃO INGREDIENTE
+
     static void listarIngredientes() {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
         ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
@@ -531,7 +606,6 @@ public class App {
         System.out.print("\nDigite o nome do ingrediente: ");
         String nome = System.console().readLine();
 
-        // TODO: validar inteiro
         System.out.print("Digite o estoque inicial do ingrediente: ");
         int estoque = Integer.parseInt(System.console().readLine());
 

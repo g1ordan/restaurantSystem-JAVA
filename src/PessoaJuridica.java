@@ -3,7 +3,7 @@ public class PessoaJuridica extends Pessoa {
     private String razaoSocial;
 
 
-    public PessoaJuridica(String nome, String telefone, String endereco, String cnpj, String razaoSocial) {
+    public PessoaJuridica(String nome, String telefone, String endereco, String cnpj, String razaoSocial) throws ApplicationError {
         super(nome, telefone, endereco);
         this.cnpj = cnpj;
         this.razaoSocial = razaoSocial;

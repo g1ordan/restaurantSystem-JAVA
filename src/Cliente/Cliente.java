@@ -1,6 +1,11 @@
 public class Cliente extends PessoaFisica {
-    public Cliente(String nome, String telefone, String endereco,String cpf, char sexo) {
+
+    public Cliente(String nome, String telefone, String endereco,String cpf, char sexo) throws ApplicationError {
         super(nome, telefone, endereco, cpf, sexo);
+    }
+
+    public Cliente() {
+        super();
     }
 
     @Override
@@ -9,8 +14,8 @@ public class Cliente extends PessoaFisica {
             "\nCpf: " + this.cpf +
             "\nNome: " + this.nome +
             "\nTelefone: " + this.telefone +
-            "\nEndereço: R$" + this.endereco +
-            "\nSexo: R$" + this.sexo
+            "\nEndereço: " + this.endereco +
+            "\nSexo: " + this.sexo
          ;
     } 
 }

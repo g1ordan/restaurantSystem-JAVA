@@ -42,10 +42,10 @@ public class FuncionarioDAO implements DAO<Funcionario> {
     }
 
     @Override
-    public Funcionario getByCod(int codigo) {
+    public Funcionario getByCod(String cod) {
         for(int i = 0; i < FuncionarioDAO.funcionarios.size(); i++){
             Funcionario funcionarioAtual = FuncionarioDAO.funcionarios.get(i);
-            if(codigo == funcionarioAtual.getCod())
+            if(cod == funcionarioAtual.getCod())
                 return funcionarioAtual;
         }  
 
