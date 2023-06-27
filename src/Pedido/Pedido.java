@@ -5,10 +5,13 @@ public class Pedido {
     private ArrayList<Integer> produtosCod = new ArrayList<Integer>();
     private int clienteCod;
     private int funcionarioCod;
+    private boolean pago;
 
     public Pedido(ArrayList<Integer> produtosCod, int clienteCod, int funcionarioCod) {
         this.produtosCod = produtosCod;
         this.clienteCod = clienteCod;
+        this.funcionarioCod = funcionarioCod;
+        this.pago = false;
     }
 
     public int getCod() {
@@ -42,6 +45,46 @@ public class Pedido {
     public void setFuncionarioCod(int funcionarioCod) {
         this.funcionarioCod = funcionarioCod;
     }
+
+    public boolean getPago() {
+        return this.pago;
+    }
+
+    public void setPago(boolean pago) {
+        this.pago = pago;
+    }
+
+     @Override
+    public String toString() {
+        ClienteDAO clienteDAO = new ClienteDAO();
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        ProdutoDAO produtoDAO = new ProdutoDAO();
+
+        Cliente cliente = clienteDAO.getByCod(this.clienteCod);
+        Funcionario funcionario = funcionarioDAO.getByCod(this.funcionarioCod);
+        ArrayList<Produto> produtos = produtoDAO.getByCods(this.produtosCod);
+
+        String texto = "Código: " + this.cod +
+            "\nCliente (código): " + cliente.getCod() +
+            "\nCliente (nome): " + cliente.getNome() +
+            "\nFuncionário (código): " + funcionario.getCod() +
+            "\nFuncionário (nome): " + funcionario.getNome() +
+            "\nProdutos: ";
+
+        double valorTotal = 0;
+        for(int i = 0; i < produtos.size(); i++) {
+            Produto produtoAtual = produtos.get(i);
+            
+            if(i != 0) texto+="\n";
+            texto+= "\n     Nome: " + produtoAtual.getNome() +
+                    "\n     Valor: " + produtoAtual.getValor();
+            valorTotal+= produtoAtual.getValor();
+        }
+
+        texto+= "\n\nValor total: R$" + valorTotal;
+
+        return texto;
+    } 
 }
 
 

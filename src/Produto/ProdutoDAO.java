@@ -9,7 +9,7 @@ public class ProdutoDAO implements DAO<Produto> {
      */
     @Override
     public void inserir(Produto produto){
-        int maiorCodigo = 1;
+        int maiorCodigo = 0;
          for(int i = 0; i < ProdutoDAO.produtos.size(); i++){
             int codigoAtual = ProdutoDAO.produtos.get(i).getcod();
             if(codigoAtual > maiorCodigo){
@@ -49,7 +49,19 @@ public class ProdutoDAO implements DAO<Produto> {
                 return produtoAtual;
         }  
 
-        throw new Error("Produto não encontrado");
+        return null;
+    }
+
+    public ArrayList<Produto> getByCods(ArrayList<Integer> codigos){
+        ArrayList<Produto> produtosEncontrados = new ArrayList<Produto>();
+
+        for(int i = 0; i < ProdutoDAO.produtos.size(); i++) {
+            if(codigos.contains(ProdutoDAO.produtos.get(i).getcod())) {
+                produtosEncontrados.add(ProdutoDAO.produtos.get(i));
+            }
+        }
+
+        return produtosEncontrados;
     }
 
     @Override

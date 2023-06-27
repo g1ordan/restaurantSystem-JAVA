@@ -8,7 +8,7 @@ public class ClienteDAO implements DAO<Cliente> {
      */
     @Override
     public void inserir(Cliente cliente){
-        int maiorCodigo = 1;
+        int maiorCodigo = 0;
         for(int i = 0; i < ClienteDAO.clientes.size(); i++){
             int codigoAtual = ClienteDAO.clientes.get(i).getCod();
             if(codigoAtual > maiorCodigo){
@@ -42,7 +42,7 @@ public class ClienteDAO implements DAO<Cliente> {
             }
         }
 
-        throw new Error("Cliente não encontrado");
+        return null;
     }
 
     public ArrayList<Cliente> getAll() {

@@ -31,7 +31,13 @@ public class PessoaFisica extends Pessoa {
     }
 
     public void setSexo(char sexo) throws ApplicationError {
-        if(sexo != 'M' || sexo != 'F') {
+        if(sexo == 'm') {
+            sexo = 'M';
+        } else if(sexo == 'f') {
+            sexo = 'F';
+        }
+
+        if(sexo != 'M' && sexo != 'F') {
             throw new ApplicationError("Sexo inválido");
         }
         this.sexo = sexo;

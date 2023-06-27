@@ -5,7 +5,7 @@ public class FuncionarioDAO implements DAO<Funcionario> {
 
     @Override
     public void inserir(Funcionario funcionario) {
-        int maiorCodigo = 1;
+        int maiorCodigo = 0;
         for(int i = 0; i < FuncionarioDAO.funcionarios.size(); i++){
             int codigoAtual = FuncionarioDAO.funcionarios.get(i).getCod();
             if(codigoAtual > maiorCodigo){
@@ -42,14 +42,14 @@ public class FuncionarioDAO implements DAO<Funcionario> {
     }
 
     @Override
-    public Funcionario getByCod(String cod) {
+    public Funcionario getByCod(int cod) {
         for(int i = 0; i < FuncionarioDAO.funcionarios.size(); i++){
             Funcionario funcionarioAtual = FuncionarioDAO.funcionarios.get(i);
             if(cod == funcionarioAtual.getCod())
                 return funcionarioAtual;
         }  
 
-        throw new Error("Funcionário não encontrado");
+        return null;
     }
 
 }

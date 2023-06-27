@@ -3,7 +3,6 @@ public class Funcionario extends PessoaFisica {
     private String funcao;
     private String dataNasci;
     private String admissao;
-    private String rescisao;
     final private String regexData = "^([0-2][0-9]||3[0-1])/(0[0-9]||1[0-2])/([0-9][0-9])?[0-9][0-9]$";
 
 
@@ -58,14 +57,17 @@ public class Funcionario extends PessoaFisica {
         this.admissao = admissao;
     }
 
-    public String getRescisao() {
-        return this.rescisao;
-    }
+    @Override
+    public String toString() {
 
-    public void setRescisao(String rescisao) throws ApplicationError {
-        if(!rescisao.matches(this.regexData)) {
-            throw new ApplicationError("Data de rescisão inválida");
-        }
-        this.rescisao = rescisao;
-    }
+        return  "Código: " + this.cod +
+            "\nCpf: " + this.cpf +
+            "\nNome: " + this.nome +
+            "\nTelefone: " + this.telefone +
+            "\nEndereço: " + this.endereco +
+            "\nSexo: " + this.sexo +
+            "\nFunção: " + this.funcao +
+            "\nData de Nascimento: " + this.dataNasci +
+            "\nData de Admissão: " + this.admissao;
+    } 
 }

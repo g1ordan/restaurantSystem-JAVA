@@ -6,7 +6,7 @@ public class PedidoDAO implements DAO<Pedido> {
 
     @Override
     public void inserir(Pedido pedido) {
-        int maiorCodigo = 1;
+        int maiorCodigo = 0;
         for(int i = 0; i < PedidoDAO.pedidos.size(); i++){
             int codigoAtual = PedidoDAO.pedidos.get(i).getCod();
             if(codigoAtual > maiorCodigo){
@@ -50,7 +50,19 @@ public class PedidoDAO implements DAO<Pedido> {
                 return pedidoAtual;
         }  
 
-        throw new Error("Funcionário não encontrado");
+        return null;
+    }
+
+    public ArrayList<Pedido> getByClienteCod(int codigo) {
+        ArrayList<Pedido> pedidosEncontrados = new ArrayList<Pedido>();
+
+        for(int i = 0; i < PedidoDAO.pedidos.size(); i++){
+            Pedido pedidoAtual = PedidoDAO.pedidos.get(i);
+            if(codigo == pedidoAtual.getClienteCod())
+                pedidosEncontrados.add(pedidoAtual);
+        }  
+
+        return pedidosEncontrados;
     }
     
 }

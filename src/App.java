@@ -70,13 +70,16 @@ public class App {
                         case 3:
                             System.out.println("--FUNCIONARIOS--");
                             System.out.println("0. Sair");
-                            System.out.println("1. Admitir Funcionário");
-                            System.out.println("2. Demitir Funcionário");
+                            System.out.println("1. Listar Funcionários");
+                            System.out.println("2. Admitir Funcionário");
+                            System.out.println("3. Demitir Funcionário");
                             subControlador = Integer.parseInt(System.console().readLine());
     
                             if(subControlador == 1) {
-                                admitirFuncionario();
+                                listarFuncionarios();
                             } else if(subControlador == 2) {
+                                admitirFuncionario();
+                            } else if(subControlador == 3) {
                                 demitirFuncionario();
                             }
 
@@ -89,6 +92,7 @@ public class App {
                             System.out.println("2. Cadastrar");
                             System.out.println("3. Deletar");
                             System.out.println("4. Adicionar Estoque");
+                            subControlador = Integer.parseInt(System.console().readLine());
 
                             if(subControlador == 1) {
                                 listarIngredientes();
@@ -200,11 +204,7 @@ public class App {
     }
 
 
-
-
-
     //IMPLEMENTAÇÃO PRODUTOS
-
     static void listarProdutos() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
@@ -227,7 +227,7 @@ public class App {
         }
     }
 
-    static void cadastrarProduto(){
+    static void cadastrarProduto() throws ApplicationError{
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
         ProdutoDAO produtoDAO = new ProdutoDAO();
         Produto novoProduto = new Produto();
@@ -257,8 +257,7 @@ public class App {
                 novoProduto.setCategoria(Categoria.Pasteis);
                 break;
             default:
-                System.out.println("Código inválido. Por favor, tente novamente.\n");
-                return;
+                throw new ApplicationError("Código inválido. Por favor, tente novamente.\n");
         }
 
         System.out.print("Digite o valor do produto: ");
@@ -278,8 +277,13 @@ public class App {
         String[] ingredientesSelecionados = System.console().readLine().split(",");
         ArrayList<Integer> ingredientesCod = new ArrayList<Integer>();
         for(int i = 0; i < ingredientesSelecionados.length; i++){
-            int valorConvertido = Integer.parseInt(ingredientesSelecionados[i].trim());
-            ingredientesCod.add(valorConvertido);
+            int ingredienteCod = Integer.parseInt(ingredientesSelecionados[i].trim());
+
+            if(ingredienteDAO.getByCod(ingredienteCod) == null) {
+                throw new ApplicationError("Ingrediente não encontrado");
+            }
+
+            ingredientesCod.add(ingredienteCod);
         }
                 
         novoProduto.setIngredientesId(ingredientesCod);
@@ -290,12 +294,10 @@ public class App {
 
     static void deletarProduto() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        ArrayList<Produto> produtos = produtoDAO.getAll();
 
         System.out.println("Produtos:");
-        for(int i = 0; i < produtos.size(); i ++) {
-            System.out.println(produtos.get(i).toString());
-        }
+        listarProdutos();
+
         System.out.print("Digite o codigo do produto que deseja deletar: ");
         int codigo = Integer.parseInt(System.console().readLine());
 
@@ -303,37 +305,39 @@ public class App {
         System.out.println("Deletado com sucesso!");
     }
         
-    static void editarProduto(){
+    static void editarProduto() throws ApplicationError{
         try {
             ProdutoDAO produtoDAO = new ProdutoDAO();
             IngredienteDAO ingredienteDAO = new IngredienteDAO();
-            ArrayList<Produto> produtos = produtoDAO.getAll();
 
             System.out.println("Produtos: ");
-            for(int i = 0; i < produtos.size(); i++){
-                System.out.println(produtos.get(i).toString());
-            }
+            listarProdutos();
 
             System.out.print("Digite o codigo do produto que deseja altera: ");
             int codigo = Integer.parseInt(System.console().readLine());
             
             Produto produto = produtoDAO.getByCod(codigo);
+
+            if(produto == null) {
+                throw new ApplicationError("Produto não encontrado");
+            }
+
             String input;
 
-            System.out.print("Caso não queira editar algum campo, digite '#'");
-            System.out.print("Digite o nome do produto: ");
+            System.out.print("\nCaso não queira editar algum campo, digite '#'");
+            System.out.print("\nDigite o nome do produto: ");
             input = System.console().readLine();
-            if(input != "#")
+            if(!input.equals("#"))
                 produto.setNome(input);
 
-            System.out.print("\nDigite a categoria do produto: ");
+            System.out.print("Digite a categoria do produto: ");
             System.out.print("\n1- Lanches");
             System.out.print("\n2- Porções");
             System.out.print("\n3- Batata em Torre");
             System.out.print("\n4- Pasteis\n");
             input = System.console().readLine();
 
-            if(input != "#") {
+            if(!input.equals("#")) {
                 switch (Integer.parseInt(input)) {
                     case 1:
                         produto.setCategoria(Categoria.Lanches);
@@ -354,7 +358,7 @@ public class App {
 
             System.out.print("Digite o valor do produto: ");
             input = System.console().readLine();
-            if(input != "#") 
+            if(!input.equals("#")) 
                 produto.setValor(Double.parseDouble(input));
 
             ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
@@ -364,11 +368,11 @@ public class App {
                 Ingrediente ingredienteAtual = ingredientes.get(i);
                 System.out.println(ingredienteAtual.getCod() + "- " + ingredienteAtual.getNome());
             };
-            System.out.print("\nDigite os códigos dos ingredientes separados por virgula. Ex: 1, 2, 3: ");
+            System.out.print("Digite os códigos dos ingredientes separados por virgula. Ex: 1, 2, 3: ");
                 
             // TODO: Validar se a resposta está formatada corretamente
             input = System.console().readLine();
-            if(input != "#") {
+            if(!input.equals("#")) {
                 String[] ingredientesSelecionados = input.split(",");
                 ArrayList<Integer> ingredientesCod = new ArrayList<Integer>();
                 for(int i = 0; i < ingredientesSelecionados.length; i++){
@@ -381,25 +385,21 @@ public class App {
 
             produtoDAO.editar(produto);
 
-            System.out.println("\nProduto cadastrado com sucesso.\n");
+            System.out.println("\nProduto editado com sucesso.\n");
         } catch(Error erro) {
             System.out.println(erro.getMessage());
         }
     }
 
 
-
-
-
     //IMPLEMENTAÇÃO CLIENTE
-
     static void listarClientes(){
         ClienteDAO clienteDAO = new ClienteDAO();
         ArrayList<Cliente> clientes = clienteDAO.getAll();
         
          for(int i = 0; i < clientes.size(); i++) {
-                System.out.println(clientes.get(i).toString());
-            }
+            System.out.println(clientes.get(i).toString() + "\n");
+        }
     }
 
     static void cadastrarCliente() throws ApplicationError {
@@ -407,7 +407,7 @@ public class App {
         
         Cliente novoCliente = new Cliente();
         
-        System.out.print("\nDigite o cpf do cliente: ");
+        System.out.print("\nDigite o cpf do cliente (xxx.xxx.xxx-xx): ");
         String cpf = System.console().readLine();
         novoCliente.setCpf(cpf);
 
@@ -415,15 +415,15 @@ public class App {
         String nome = System.console().readLine();
         novoCliente.setNome(nome);
 
-        System.out.print("\nDigite o telefone do cliente: ");
+        System.out.print("Digite o telefone do cliente: (xx) xxxxx-xxxx ");
         String telefone = System.console().readLine();
         novoCliente.setTelefone(telefone);
 
-        System.out.print("\nDigite o endereco do cliente: ");
+        System.out.print("Digite o endereco do cliente: ");
         String endereco = System.console().readLine();
         novoCliente.setEndereco(endereco);
         
-        System.out.print("\nDigite o sexo do cliente: ");
+        System.out.print("Digite o sexo do cliente: ");
         char sexo = System.console().readLine().charAt(0);
         novoCliente.setSexo(sexo);
         
@@ -434,38 +434,37 @@ public class App {
     static void editarCliente() throws ApplicationError {
         try {
             ClienteDAO clienteDAO = new ClienteDAO();
-            ArrayList<Cliente> clientes = clienteDAO.getAll();
 
-            for(int i = 0; i < clientes.size(); i++) {
-                System.out.println(clientes.get(i).toString());
-            }
-
+            listarClientes();
             System.out.print("Digite o código do cliente que deseja alterar: ");
             int codigo = Integer.parseInt(System.console().readLine());
 
             Cliente cliente = clienteDAO.getByCod(codigo);
+            if(cliente == null) {
+                throw new ApplicationError("Cliente não encontrado");
+            }
             
             String input;
 
-            System.out.print("Caso não queira editar algum campo, digite '#'");
+            System.out.print("\nCaso não queira editar algum campo, digite '#'");
             System.out.print("\nDigite o nome do cliente: ");
             input = System.console().readLine();
-            if(input != "#")
+            if(!input.equals("#"))
                 cliente.setNome(input);
 
-            System.out.print("\nDigite o telefone do cliente: ");
+            System.out.print("Digite o telefone do cliente: (xx) xxxxx-xxxx ");
             input = System.console().readLine();
-            if(input != "#")
+            if(!input.equals("#"))
                 cliente.setTelefone(input);
 
-            System.out.print("\nDigite o endereco do cliente: ");
+            System.out.print("Digite o endereco do cliente: ");
             input = System.console().readLine();
-            if(input != "#")
+            if(!input.equals("#"))
                 cliente.setEndereco(input);
             
-            System.out.print("\nDigite o sexo do cliente: ");
+            System.out.print("Digite o sexo do cliente: ");
             input = System.console().readLine();
-            if(input != "#")
+            if(!input.equals("#"))
                 cliente.setSexo(input.charAt(0));
 
             clienteDAO.editar(cliente);
@@ -476,56 +475,94 @@ public class App {
         
     }
 
-    static void anotarPedido(){
-        
+    static void anotarPedido() throws ApplicationError{
         ClienteDAO clienteDAO = new ClienteDAO();
-        Cliente novoCliente = new Cliente();
-
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-        Funcionario novoFuncionario = new Funcionario();
-
         ProdutoDAO produtoDAO = new ProdutoDAO();
-        Produto novoProduto = new Produto();
+        IngredienteDAO ingredienteDAO = new IngredienteDAO();
+        PedidoDAO pedidoDAO = new PedidoDAO();
 
+        listarFuncionarios();
         System.out.print("\nDigite o codigo do garçom: ");
         int codFunc = Integer.parseInt(System.console().readLine());
-        Funcionario funcionario = funcionarioDAO.getByCod(codFunc);
+        if(funcionarioDAO.getByCod(codFunc) == null) {
+            throw new ApplicationError("Funcionário não encontrado");
+        }
 
         listarClientes();
         System.out.print("\nDigite o codigo do cliente: ");
         int codCliente = Integer.parseInt(System.console().readLine());
-        Cliente cliente = clienteDAO.getByCod(codCliente);
+        if(clienteDAO.getByCod(codCliente) == null) {
+            throw new ApplicationError("Cliente não encontrado");
+        }
 
         listarProdutos();
-        System.out.print("\nDigite o codigo do produto: ");
-        int codProduto = Integer.parseInt(System.console().readLine());
-        Produto produto = produtoDAO.getByCod(codProduto);
-        
+        System.out.print("\nDigite os códigos dos produtos separados por virgula. Ex: 1, 2, 3: ");
+        String[] produtosSelecionados = System.console().readLine().split(",");
+        ArrayList<Integer> produtosCod = new ArrayList<Integer>();
+        for(int i = 0; i < produtosSelecionados.length; i++){
+            int codProduto = Integer.parseInt(produtosSelecionados[i].trim());
 
-        System.out.print("Quantas unidades: ");
-        String unidade  = System.console().readLine();
-    
-        
-        clienteDAO.inserir(novoCliente);
-        System.out.println("\nPedido anotado.\n");
+            Produto produto = produtoDAO.getByCod(codProduto);
+            if(produto == null) {
+                throw new ApplicationError("Produto não encontrado");
+            }
 
+            ArrayList<Ingrediente> ingredientes = ingredienteDAO.getByCods(produto.getIngredientesId());
+            for(int j = 0; j < ingredientes.size(); j++) {
+                Ingrediente ingredienteAtual = ingredientes.get(j);
+
+                if(ingredienteAtual.getEstoque() == 0){
+                    throw new ApplicationError("Ingrediente " + ingredienteAtual.getNome() + " sem estoque");
+                }
+                ingredienteAtual.setEstoque(ingredienteAtual.getEstoque() - 1);
+                ingredienteDAO.editar(ingredienteAtual);
+            }
+
+            produtosCod.add(codProduto);
+        }
+
+        Pedido novoPedido = new Pedido(produtosCod, codCliente, codFunc);
+        pedidoDAO.inserir(novoPedido);
+        System.out.println("\nPedido anotado!\n");
+    }
+
+    static void receberPagamento() throws ApplicationError{
         PedidoDAO pedidoDAO = new PedidoDAO();
-        Pedido novPedido = new Pedido(null, 0, 0);
+
+        ArrayList<Pedido> pedidos = pedidoDAO.getAll();
+        for(int i = 0; i < pedidos.size(); i++) {
+            Pedido pedidoAtual = pedidos.get(i);
+            // Lista apenas pedidos não pagos
+            if(!pedidoAtual.getPago()) {
+                System.out.println(pedidoAtual.toString());
+            }
+        }
+
+        System.out.print("\nDigite o código do pedido a ser pago: ");
+        int codPedido = Integer.parseInt(System.console().readLine());
+        Pedido pedido = pedidoDAO.getByCod(codPedido);
+        if(pedido == null) {
+            throw new ApplicationError("Pedido não encontrado");
+        }
+
+        pedido.setPago(true);
+        pedidoDAO.editar(pedido);
+        System.out.print("\nPedido pago!\n");
+    }
         
+
+    //IMPLEMENTAÇÃO FUNCIONÁRIO
+    static void listarFuncionarios() {
+        FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+        ArrayList<Funcionario> funcionarios = funcionarioDAO.getAll();
+
+        for(int i = 0; i < funcionarios.size(); i ++) {
+            System.out.println(funcionarios.get(i).toString() + "\n");
+        }
     }
 
-    static void receberPagamento(){
-        
-    }
-        
-    
-    
-
-
-
-      //IMPLEMENTAÇÃO FUNCIONÁRIO
-
-    public static void admitirFuncionario() throws ApplicationError {
+    static void admitirFuncionario() throws ApplicationError {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         Funcionario novoFuncionario = new Funcionario();
 
@@ -537,32 +574,31 @@ public class App {
         String nome = System.console().readLine();
         novoFuncionario.setNome(nome);
 
-        System.out.print("\nDigite o telefone do funcionário: (xx) xxxxx-xxxx: ");
+        System.out.print("Digite o telefone do funcionário: (xx) xxxxx-xxxx: ");
         String telefone = System.console().readLine();
         novoFuncionario.setTelefone(telefone);
 
-        System.out.print("\nDigite o endereço do funcionário: ");
+        System.out.print("Digite o endereço do funcionário: ");
         String endereco = System.console().readLine();
         novoFuncionario.setEndereco(endereco);
         
-        System.out.print("\nDigite o sexo do funcionário: ");
+        System.out.print("Digite o sexo do funcionário: ");
         char sexo = System.console().readLine().charAt(0);
         novoFuncionario.setSexo(sexo);
 
-        System.out.print("\nDigite o salário do funcionário: ");
+        System.out.print("Digite o salário do funcionário: ");
         double salario = Double.parseDouble(System.console().readLine());
         novoFuncionario.setSalario(salario);
 
-        System.out.print("\nDigite a funçao do funcionário: ");
+        System.out.print("Digite a funçao do funcionário: ");
         String funcao = System.console().readLine();
         novoFuncionario.setFuncao(funcao);
 
-        // TO DO: Validar data
-        System.out.print("\nDigite a data de nascimento do funcionário: (dd/mm/aaaa): ");
+        System.out.print("Digite a data de nascimento do funcionário: (dd/mm/aaaa): ");
         String dataNasci = System.console().readLine();
         novoFuncionario.setDataNasci(dataNasci);
 
-        System.out.print("\nDigite a data de admissão do funcionário: (dd/mm/aaaa)");
+        System.out.print("Digite a data de admissão do funcionário: (dd/mm/aaaa): ");
         String admissao = System.console().readLine();
         novoFuncionario.setAdmissao(admissao);
 
@@ -572,12 +608,10 @@ public class App {
 
     static void demitirFuncionario() {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
-        ArrayList<Funcionario> funcionarios = funcionarioDAO.getAll();
 
         System.out.println("Funcionários:");
-        for(int i = 0; i < funcionarios.size(); i ++) {
-            System.out.println(funcionarios.get(i).toString());
-        }
+        listarFuncionarios();
+        
         System.out.print("Digite o codigo do funcionário que deseja demitir: ");
         int codigo = Integer.parseInt(System.console().readLine());
 
@@ -586,17 +620,13 @@ public class App {
     }
 
 
-
-
-
-      //IMPLEMENTAÇÃO INGREDIENTE
-
+    //IMPLEMENTAÇÃO INGREDIENTE
     static void listarIngredientes() {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
         ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
         
          for(int i = 0; i < ingredientes.size(); i++) {
-            System.out.println(ingredientes.get(i).toString());
+            System.out.println(ingredientes.get(i).toString() + "\n");
         }
     }
 
@@ -614,36 +644,40 @@ public class App {
         System.out.println("\nIngrediente cadastrado com sucesso.\n");
     }
 
-    static void deletarIngrediente() {
+    static void deletarIngrediente() throws ApplicationError {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
-        ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
 
         System.out.println("Ingredientes:");
-        for(int i = 0; i < ingredientes.size(); i ++) {
-            System.out.println(ingredientes.get(i).toString());
-        }
+        listarIngredientes();
+
         System.out.print("Digite o codigo do ingrediente que deseja deletar: ");
         int codigo = Integer.parseInt(System.console().readLine());
+        if(ingredienteDAO.getByCod(codigo) == null) {
+            throw new ApplicationError("Ingrediente não encontrado!");
+        }
 
         ingredienteDAO.deletar(codigo);
         System.out.println("Deletado com sucesso!");
     }
 
-    static void adicionarEstoqueIngrediente() {
+    static void adicionarEstoqueIngrediente() throws ApplicationError {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
-        ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
 
         System.out.println("Ingredientes:");
-        for(int i = 0; i < ingredientes.size(); i ++) {
-            System.out.println(ingredientes.get(i).toString());
-        }
+        listarIngredientes();
+
         System.out.print("Digite o codigo do ingrediente que deseja adicionar no estoque: ");
         int codigo = Integer.parseInt(System.console().readLine());
 
-        System.out.println("Digite a quantidade a ser adicionado no estoque: ");
+        System.out.print("Digite a quantidade a ser adicionado no estoque: ");
         int quantidade = Integer.parseInt(System.console().readLine());
 
         Ingrediente ingrediente = ingredienteDAO.getByCod(codigo);
+
+        if(ingrediente == null) {
+            throw new ApplicationError("Ingrediente não encontrado");
+        }
+
         ingrediente.setEstoque(ingrediente.getEstoque() + quantidade);
         ingredienteDAO.editar(ingrediente);
     }

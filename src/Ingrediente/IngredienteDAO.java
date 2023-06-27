@@ -10,7 +10,7 @@ public class IngredienteDAO implements DAO<Ingrediente> {
      */
     @Override
     public void inserir(Ingrediente ingrediente){
-        int maiorCodigo = 1;
+        int maiorCodigo = 0;
         for(int i = 0; i < IngredienteDAO.ingredientes.size(); i++){
            int codigoAtual = IngredienteDAO.ingredientes.get(i).getCod();
            if(codigoAtual > maiorCodigo){
@@ -64,20 +64,33 @@ public class IngredienteDAO implements DAO<Ingrediente> {
 
     @Override
     public void deletar(int codigo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deletar'");
+        for (int i = 0; i < IngredienteDAO.ingredientes.size(); i++){
+            if(codigo == IngredienteDAO.ingredientes.get(i).getCod()){
+                IngredienteDAO.ingredientes.remove(i);
+            }
+        }
     }
 
     @Override
     public void editar(Ingrediente ingrediente) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'editar'");
+        for(int i = 0; i < IngredienteDAO.ingredientes.size(); i++) {
+            Ingrediente ingredienteAtual = IngredienteDAO.ingredientes.get(i);
+            if(ingredienteAtual.getCod() == ingrediente.getCod()) {
+                IngredienteDAO.ingredientes.set(i, ingrediente);
+                return;
+            }
+        }
     }
 
     @Override
-    public Ingrediente getByCod(int ingrediente) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getByCod'");
+    public Ingrediente getByCod(int codigo) {
+        for(int i = 0; i < IngredienteDAO.ingredientes.size(); i++){
+            Ingrediente ingredienteAtual = IngredienteDAO.ingredientes.get(i);
+            if(codigo == ingredienteAtual.getCod())
+                return ingredienteAtual;
+        }  
+
+        return null;
     }
 
 }
