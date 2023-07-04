@@ -5,8 +5,8 @@ public class IngredienteDAO implements DAO<Ingrediente> {
     private static ArrayList<Ingrediente> ingredientes = new ArrayList<Ingrediente>();
 
     /**
-     * @param novosIngredientes ArrayList de ingredientes a serem inseridos no banco dados
-     * @return ArrayList<Integer>
+     * Insere um novo ingrediente no banco de dados
+     * @param ingrediente a ser inserido no banco dados
      */
     @Override
     public void inserir(Ingrediente ingrediente){
@@ -22,6 +22,7 @@ public class IngredienteDAO implements DAO<Ingrediente> {
     }
     
     /**
+     * Busca os ingredientes de acordo com os seus nomes 
      * @param nomes Array de nomes a serem buscados no banco de dados
      * @return ArrayList<Integer> códigos encontrados a partir dos nomes 
      */
@@ -62,6 +63,10 @@ public class IngredienteDAO implements DAO<Ingrediente> {
         return IngredienteDAO.ingredientes;
     }
 
+    /**
+     * Deleta um ingrediente do banco de dados 
+     * @param codigo do ingrediente que vai ser deletado do banco de dados
+     */
     @Override
     public void deletar(int codigo) {
         for (int i = 0; i < IngredienteDAO.ingredientes.size(); i++){
@@ -71,6 +76,10 @@ public class IngredienteDAO implements DAO<Ingrediente> {
         }
     }
 
+    /**
+     * Busca o ingrediente pelo seu código, caso encontre, o mesmo é editado, caso contrário, nada acontece
+     * @param ingrediente a ser editado no banco de dados
+     */
     @Override
     public void editar(Ingrediente ingrediente) {
         for(int i = 0; i < IngredienteDAO.ingredientes.size(); i++) {
@@ -82,6 +91,11 @@ public class IngredienteDAO implements DAO<Ingrediente> {
         }
     }
 
+    /**
+     * Procura um ingrediente no banco de dados, caso não ache o ingrediente, retorna null 
+     * @param codigo do ingrediente a ser buscado no banco de dados
+     * @return Ingrediente
+     */
     @Override
     public Ingrediente getByCod(int codigo) {
         for(int i = 0; i < IngredienteDAO.ingredientes.size(); i++){

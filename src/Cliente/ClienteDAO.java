@@ -4,6 +4,7 @@ public class ClienteDAO implements DAO<Cliente> {
     private static ArrayList<Cliente> clientes = new ArrayList<Cliente>();
 
     /**
+     * Insere um novo cliente no banco de dados
      * @param cliente a ser inserido no banco de dados
      */
     @Override
@@ -20,7 +21,8 @@ public class ClienteDAO implements DAO<Cliente> {
     }
 
     /**
-     * @param cliente a ser atualizado no banco de dados
+     * Busca o cliente pelo seu código, caso encontre, o mesmo é editado, caso contrário, nada acontece
+     * @param cliente a ser editado no banco de dados
      */
     @Override
     public void editar(Cliente cliente){
@@ -33,6 +35,11 @@ public class ClienteDAO implements DAO<Cliente> {
         }
     }
 
+    /**
+     * Procura um cliente no banco de dados, caso não ache o cliente, retorna null 
+     * @param codigo do cliente a ser buscado no banco de dados
+     * @return Cliente
+     */
     @Override
     public Cliente getByCod(int codigo) {
         for(int i = 0; i < ClienteDAO.clientes.size(); i++) {
@@ -45,10 +52,18 @@ public class ClienteDAO implements DAO<Cliente> {
         return null;
     }
 
+    /**
+     * Retorna todos os clientes do banco de dados
+     * @return ArrayList<Cliente>
+     */
     public ArrayList<Cliente> getAll() {
         return ClienteDAO.clientes;
     }
 
+    /**
+     * Deleta um cliente do banco de dados 
+     * @param codigo do cliente que vai ser deletado do banco de dados
+     */
     @Override
     public void deletar(int codigo) {
         for (int i = 0; i < ClienteDAO.clientes.size(); i++){

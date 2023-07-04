@@ -122,6 +122,7 @@ public class App {
 
     }
 
+    //Insere os dados iniciais do banco de dados (Ingredientes, Produtos, Clientes e Funcionários)
     public static void inserirValoresDefault() throws ApplicationError {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
         ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -205,6 +206,8 @@ public class App {
 
 
     //IMPLEMENTAÇÃO PRODUTOS
+
+    //Listagem de produtos e ingredientes de acordo com o Arraylist declarado. 
     static void listarProdutos() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
@@ -227,6 +230,7 @@ public class App {
         }
     }
 
+    //Cadastro dos produtos solicitando nome, categoria, valor e ingredientes. Há validação em todos os campos.
     static void cadastrarProduto() throws ApplicationError{
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
         ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -273,7 +277,6 @@ public class App {
         };
         System.out.print("\nDigite os códigos dos ingredientes separados por virgula. Ex: 1, 2, 3: ");
                 
-        // TODO: Validar se a resposta está formatada corretamente
         String[] ingredientesSelecionados = System.console().readLine().split(",");
         ArrayList<Integer> ingredientesCod = new ArrayList<Integer>();
         for(int i = 0; i < ingredientesSelecionados.length; i++){
@@ -292,6 +295,7 @@ public class App {
         System.out.println("\nProduto cadastrado com sucesso.\n");
     }
 
+    //Deleta o produto, tornando ele indisponível no cardápio. 
     static void deletarProduto() {
         ProdutoDAO produtoDAO = new ProdutoDAO();
 
@@ -304,7 +308,8 @@ public class App {
         produtoDAO.deletar(codigo);
         System.out.println("Deletado com sucesso!");
     }
-        
+
+    //Edita o produto passando por todas características do mesmo. Há validação em todos os campos. 
     static void editarProduto() throws ApplicationError{
         try {
             ProdutoDAO produtoDAO = new ProdutoDAO();
@@ -370,7 +375,6 @@ public class App {
             };
             System.out.print("Digite os códigos dos ingredientes separados por virgula. Ex: 1, 2, 3: ");
                 
-            // TODO: Validar se a resposta está formatada corretamente
             input = System.console().readLine();
             if(!input.equals("#")) {
                 String[] ingredientesSelecionados = input.split(",");
@@ -393,6 +397,8 @@ public class App {
 
 
     //IMPLEMENTAÇÃO CLIENTE
+
+    //Listagem dos clientes de acordo com o Arraylist declarado. 
     static void listarClientes(){
         ClienteDAO clienteDAO = new ClienteDAO();
         ArrayList<Cliente> clientes = clienteDAO.getAll();
@@ -402,6 +408,7 @@ public class App {
         }
     }
 
+    //Cadastro dos clientes solicitando cpf, nome, telefone, endereço e sexo. Há validação em todos os campos.
     static void cadastrarCliente() throws ApplicationError {
         ClienteDAO clienteDAO = new ClienteDAO();
         
@@ -430,7 +437,8 @@ public class App {
         clienteDAO.inserir(novoCliente);
         System.out.println("\nCliente cadastrado com sucesso.\n");
     }
-
+    
+    //Edita o cliente passando por todas características do mesmo. Há validação em todos os campos.
     static void editarCliente() throws ApplicationError {
         try {
             ClienteDAO clienteDAO = new ClienteDAO();
@@ -475,6 +483,7 @@ public class App {
         
     }
 
+    // Faz uso das classes Cliente, Funcionario, Produto, Ingrediente e Pedido. Solicita o Cod do Garçom, do cliente, dos produtos e anota o pedido.
     static void anotarPedido() throws ApplicationError{
         ClienteDAO clienteDAO = new ClienteDAO();
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
@@ -526,7 +535,8 @@ public class App {
         pedidoDAO.inserir(novoPedido);
         System.out.println("\nPedido anotado!\n");
     }
-
+    
+    //Recebe o pagamento solicitando o cod do pedido. Lista apenas os pedidos em aberto já com valores somados.
     static void receberPagamento() throws ApplicationError{
         PedidoDAO pedidoDAO = new PedidoDAO();
 
@@ -553,6 +563,8 @@ public class App {
         
 
     //IMPLEMENTAÇÃO FUNCIONÁRIO
+
+    //Lista funcionáriso de acordo com Arraylist declarado.
     static void listarFuncionarios() {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         ArrayList<Funcionario> funcionarios = funcionarioDAO.getAll();
@@ -562,6 +574,7 @@ public class App {
         }
     }
 
+    //Admite um funcionário solicitando cpf, nome, telefone, endereço, sexo, salário, função, data de nascimento e data de admissão. Há validação em todos os campos.
     static void admitirFuncionario() throws ApplicationError {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
         Funcionario novoFuncionario = new Funcionario();
@@ -605,7 +618,8 @@ public class App {
         funcionarioDAO.inserir(novoFuncionario);
         System.out.println("\nFuncionário cadastrado com sucesso.\n");
     }
-
+    
+    //Demite um funcionário solicitando o codigo do mesmo.
     static void demitirFuncionario() {
         FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
 
@@ -621,6 +635,8 @@ public class App {
 
 
     //IMPLEMENTAÇÃO INGREDIENTE
+
+    //Listagem dos ingredientes de acordo com o Arraylist declarado. 
     static void listarIngredientes() {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
         ArrayList<Ingrediente> ingredientes = ingredienteDAO.getAll();
@@ -630,6 +646,7 @@ public class App {
         }
     }
 
+    //Cadastro dos ingredientes solicitando nome e estoque.
     static void cadastrarIngrediente() {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
 
@@ -644,6 +661,7 @@ public class App {
         System.out.println("\nIngrediente cadastrado com sucesso.\n");
     }
 
+    //Deleta o ingrediente a partir do seu código.  
     static void deletarIngrediente() throws ApplicationError {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
 
@@ -660,6 +678,7 @@ public class App {
         System.out.println("Deletado com sucesso!");
     }
 
+    //Adiciona o ingrediente no estoque, somando com a quantidade já disponível 
     static void adicionarEstoqueIngrediente() throws ApplicationError {
         IngredienteDAO ingredienteDAO = new IngredienteDAO();
 
